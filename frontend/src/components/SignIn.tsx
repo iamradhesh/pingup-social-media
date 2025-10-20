@@ -1,6 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+interface FormData {
+  email: string;
+  password: string;
+}
 
 const SignIn = () => {
+  const [formData, setFormData] = useState<FormData>({
+    email: '',
+    password: ''
+  });
+
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    //Error handling and form submission logic goes here
+    if(!formData.email || !formData.password){
+      setError("Please fill all the fields");
+      return;
+    }
+    else if(formData.password.length < 6){
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+    console.log("Form Data Submitted: ", formData);
+    //  API call
+  }
+
   return (
     // Main Container: w-full and max-width classes are correct for a card/form wrapper.
     <div className='w-full max-w-sm md:max-w-md lg:max-w-lg justify-center items-center p-6 md:p-10 '>
@@ -20,7 +47,7 @@ const SignIn = () => {
       
       {/* 3. Form Container (REMOVED absolute positioning and fixed px sizes) */}
       {/* Replaced absolute positioning and fixed sizes (h-[118px] top-[109.98px] etc.) with responsive flow */}
-      <form action="" className='flex flex-col space-y-4'> {/* Use flex-col and space-y for vertical flow and consistent spacing */}
+      <form onSubmit={handleSubmit} className='flex flex-col space-y-4'> {/* Use flex-col and space-y for vertical flow and consistent spacing */}
         
         {/* Email Input Group */}
         <div className='flex flex-col w-full'>
@@ -29,6 +56,8 @@ const SignIn = () => {
             type="email" 
             id='email' 
             name='email' 
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             placeholder='Enter your email' 
             className='w-full h-10 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
@@ -41,9 +70,12 @@ const SignIn = () => {
             type="password" 
             id='password' 
             name='password' 
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             placeholder='Enter your password' 
             className='w-full h-10 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
+          {error && <p className='text-red-500 text-sm'>{error}</p>}
         </div>
         
         {/* Add a submission button here for a complete form */}
