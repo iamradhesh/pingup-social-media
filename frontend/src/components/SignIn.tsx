@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-
+import { signinService } from '../service/authServices';
+import { useNavigate } from 'react-router-dom';
 interface FormData {
   email: string;
   password: string;
@@ -10,10 +11,12 @@ const SignIn = () => {
     email: '',
     password: ''
   });
-
+  const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     //Error handling and form submission logic goes here
     if(!formData.email || !formData.password){
@@ -24,8 +27,23 @@ const SignIn = () => {
       setError("Password must be at least 6 characters long");
       return;
     }
-    console.log("Form Data Submitted: ", formData);
+    
     //  API call
+
+    try {
+      const response = await signinService(formData);
+      setSuccess(response.message);
+      setError(null);
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
+    }
   }
 
   return (
@@ -76,6 +94,7 @@ const SignIn = () => {
             className='w-full h-10 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
           {error && <p className='text-red-500 text-sm'>{error}</p>}
+          {success && <p className='text-green-500 text-sm'>{success}</p>}
         </div>
         
         {/* Add a submission button here for a complete form */}

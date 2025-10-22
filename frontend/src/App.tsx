@@ -4,6 +4,7 @@ import FeedPage from "./pages/FeedPage";
 import ProfilePage from "./pages/ProfilePage";
 import MessagesPage from "./pages/MessagesPage";
 import AuthPage from "./pages/AuthPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -12,29 +13,35 @@ function App() {
       <Route path="/signup" element={<AuthPage />} />
       <Route path="/signin" element={<AuthPage />} />
 
-      {/* Main app routes */}
+      {/* Protected main app routes */}
       <Route
         path="/"
         element={
-          <MainLayout>
-            <FeedPage />
-          </MainLayout>
+          <ProtectedRoute>
+            <MainLayout>
+              <FeedPage />
+            </MainLayout>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/profile"
         element={
-          <MainLayout>
-            <ProfilePage />
-          </MainLayout>
+          <ProtectedRoute>
+            <MainLayout>
+              <ProfilePage />
+            </MainLayout>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/messages"
         element={
-          <MainLayout>
-            <MessagesPage />
-          </MainLayout>
+          <ProtectedRoute>
+            <MainLayout>
+              <MessagesPage />
+            </MainLayout>
+          </ProtectedRoute>
         }
       />
     </Routes>
