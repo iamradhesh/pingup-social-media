@@ -3,17 +3,14 @@ import React, { ReactNode } from "react";
 import Sidebar from "./Sidebar";
 
 type Props = {
-  children: ReactNode; // this will be FeedPage, ProfilePage, or MessagesPage
+  children: ReactNode;
 };
 
 export default function MainLayout({ children }: Props) {
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
+    <div className="flex min-h-screen bg-gray-100 overflow-x-hidden">
       <Sidebar />
-
-      {/* Main content */}
-      <main className="flex-1 p-4">
+      <main className="flex-1 p-4 md:ml-0">
         {children}
       </main>
     </div>
