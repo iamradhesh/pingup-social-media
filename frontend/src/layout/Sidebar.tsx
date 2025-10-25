@@ -1,11 +1,16 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import profilepic from "../assets/profilepic.jpg";
 import logoutButton from "../assets/logoutButton.png";
+import add from "../assets/add.png";
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => setIsOpen(!isOpen);
-  const handleCreatePost = () => {};
+  const navigate = useNavigate();
+  const handleCreatePost = () => {
+    navigate("/create-post");
+    setIsOpen(false);
+  };
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     window.location.href = "/signin"; // Redirect to signin page
@@ -87,9 +92,10 @@ export default function Sidebar() {
         <div className="absolute bottom-[69px] w-full px-4 pb-4">
           <button
             onClick={handleCreatePost}
-            className="w-full max-w-[239px] h-[44px] mx-auto rounded-lg text-white font-semibold flex items-center justify-center bg-gradient-to-r from-[#615FFF] to-[#9810FA] hover:shadow-lg active:scale-95 transition-all"
+            className="w-full gap-2 max-w-[239px] h-[44px] mx-auto rounded-lg text-white font-semibold flex items-center justify-center bg-gradient-to-r from-[#615FFF] to-[#9810FA] hover:shadow-lg active:scale-95 transition-all"
           >
-            ➕ Create Post
+            <img src={add} alt="Add" className="w-5 h-5" />
+            <span>Create Post</span>
           </button>
         </div>
 
@@ -124,7 +130,10 @@ export default function Sidebar() {
 
             {/* 3. Logout Button */}
             <div className="absolute right-1">
-              <button className="text-blue-500 hover:underline" onClick={handleLogout}>
+              <button
+                className="text-blue-500 hover:underline"
+                onClick={handleLogout}
+              >
                 <img
                   src={logoutButton}
                   alt="logout button"

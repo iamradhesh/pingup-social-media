@@ -5,6 +5,7 @@ import ProfilePage from "./pages/ProfilePage";
 import MessagesPage from "./pages/MessagesPage";
 import AuthPage from "./pages/AuthPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import CreatePost from "./pages/CreatePost";
 
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
   const hideSidebar = ["/signin", "/signup"].includes(location.pathname);
 
   return (
-    <div className="flex gap-2 min-w-screen md:w-[1536px] min-h-screen md:h-[2772px]">
+    <div className="flex gap-2 w-full min-h-screen ">
      
 
       {!hideSidebar && <Sidebar />}
@@ -53,6 +54,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <MessagesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-post"
+            element={
+              <ProtectedRoute>
+                <CreatePost />
               </ProtectedRoute>
             }
           />
