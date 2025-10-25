@@ -135,4 +135,20 @@ const signin = async (
   }
 };
 
-export { signup, signin };
+// Signout Controller (Optional)
+
+const signout = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    // Clear the JWT token (implementation depends on how you're storing it)
+    localStorage.removeItem("authToken");
+    return res.status(200).json({ message: "Signout successful" });
+  } catch (error) {
+    console.error("Signout error:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export { signup, signin, signout };
