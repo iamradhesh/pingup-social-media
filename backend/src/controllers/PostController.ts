@@ -43,3 +43,25 @@ export const createPost = async (req: AuthRequest, res: Response) => {
     return res.status(500).json({ error: "Failed to create post" });
   }
 };
+
+//Get all posts
+export const getAllPosts = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const posts = await Post.find().populate("user", "name profilePicture");
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Get All Posts Error:", error);
+    res.status(500).json({ error: "Failed to get posts" });
+  }
+};
+
+//getPost of currunt user
+export const getUserPosts = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const posts = await Post.find({ user: req.user!.id }).populate("user", "name profilePicture");
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Get User Posts Error:", error);
+    res.status(500).json({ error: "Failed to get user posts" });
+  }
+};
